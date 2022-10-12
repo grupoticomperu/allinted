@@ -1,0 +1,36 @@
+
+php artisan make:controller admin/TableController
+php artisan make:controller admin/CategoryController
+
+
+php artisan make:livewire admin/CategoryList
+php artisan make:livewire admin/CategoryCreate
+php artisan make:livewire admin/ModeloList
+php artisan make:livewire admin/ModeloCreate
+php artisan make:livewire admin/UmList
+php artisan make:livewire admin/UmCreate
+php artisan make:livewire admin/BrandList
+php artisan make:livewire admin/BrandCreate
+php artisan make:livewire admin/ProductList
+php artisan make:livewire admin/PurchaseList
+php artisan make:livewire admin/PurchaseCreate
+
+
+php artisan make:model Category -mfs
+php artisan make:model Brand -mfs
+php artisan make:model Modelo -mfs
+
+php artisan make:model Um -mfs
+php artisan make:model Product -mfs
+php artisan make:model Um -mfs
+php artisan make:model Configuration -mfs
+php artisan make:model Typeoperation -mfs //tipo de operacion ventas, compras
+
+php artisan make:model Typevoucher -mfs  //tipo de comprobante factura boleta
+
+php artisan make:model Tax -mfs
+php artisan make:model Currency -mfs
+php artisan make:model Comprobantepurchase -mfs
+php artisan make:model Comprobantesales -mfs
+php artisan make:model Customersupplier -mfs
+php artisan make:model Typedocument -mfs
