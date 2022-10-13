@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->boolean('state')->default(true);
-            $table->string('image', 2048)->default('categories/default.jpg')->nullable();
+            $table->string('image', 2048)->default('/storage/brands/default.jpg')->nullable();
             $table->timestamps();
         });
     }

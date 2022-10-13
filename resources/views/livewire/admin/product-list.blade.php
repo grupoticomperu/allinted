@@ -185,8 +185,8 @@
 
 
                                                 <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                                    <a href="{{ route('productcompuesto.list', $productt) }}" class="btn btn-blue"><i class="fa-sharp fa-solid fa-eye"></i></a>
-                                                    <a href="{{ route('productcompuesto.edit', $productt) }}" class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
+
+                                                    <a href="#" class="btn btn-green"><i class="fa-solid fa-pen-to-square"></i></a>
                                                     <a class="btn btn-red" wire:click="$emit('deleteProduct', {{ $productt->id }})" >
                                                        <i class="fa-solid fa-trash-can"></i>
 

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('slug')->unique();
             $table->boolean('state')->default(1);
-            $table->string('image', 2048)->default('brands/default.jpg')->nullable();
+            $table->string('image', 2048)->default('/storage/brands/default.jpg')->nullable();
 
             $table->timestamps();
         });

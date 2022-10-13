@@ -22,9 +22,8 @@ class ProductList extends Component
     public $sort='id';
     public $direction='desc';
     public $cant='10';
-    public $open_edit = false;
     public $readyToLoad = false;//para controlar el preloader
-    public $category;
+    //public $category;
 
     protected $listeners = ['render', 'delete'];
 
@@ -49,13 +48,6 @@ class ProductList extends Component
 
 
 /*       'brand.name'=> 'required',Rule::unique('brands')->ignore($this->brand->id) */
-
-      protected $rules = [
-        'product.name' => 'required',
-        'product.image'=>'image',
-        'product.state'=>'required',
-    ];
-
 
     public function loadProducts(){
         $this->readyToLoad = true;

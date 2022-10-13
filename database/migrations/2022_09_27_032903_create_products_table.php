@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Product;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -19,7 +20,8 @@ return new class extends Migration
             $table->string('codigo')->unique();
             $table->string('codigobarrasi')->unique();
             $table->string('codigobarrase')->unique();
-            $table->string('name')->nullable();
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
 
             $table->double('purchaseprice', 8, 4)->nullable();//precio-compra
@@ -47,8 +49,9 @@ return new class extends Migration
 
             $table->boolean('state')->default(false);
 
-            $table->string('image')->nullable();
-            $table->string('typeproduct')->nullable();
+            $table->string('image', 2048)->default('/storage/products/default.jpg')->nullable();
+            $table->enum('typeproduct', [Product::NUEVO, Product::USADO])->default(Product::NUEVO);
+            $table->enum('prodservicio', [Product::PRODUCTO, Product::SERVICIO])->default(Product::PRODUCTO);
 
             $table->timestamps();
         });
