@@ -36,45 +36,48 @@
                         <x-jet-input-error for="prodservicio" />
                     </div>
 
-                    <div class="py-2 mb-1" wire:ignore>
+                    <div class="py-2 mb-1">
                         <label>Categorias </label>
-                        <select wire:model="category_id" class="select2"  data-placeholder="Selecccione una categoria" style="height:50%; width:100%">
+                        <select wire:model="category_id" data-placeholder="Selecccione una categoria" style="height:50%; width:100%">
                             <option value="" selected disabled>Seleccione</option>
                             @foreach($categories as $category)
-                            <option value="{{$category->id}}">{{$category->name}}</option>
+                            {{-- <option value="{{$category->id."+".$category->name}}">{{$category->name}}</option> --}}
+                            <option value="{{ $category->name }} ">{{$category->name}}</option>
                             @endforeach
 
                         </select>
+
                         <x-jet-input-error for="category_id" />
                     </div>
 
-                    <div class="py-2 mb-1" wire:ignore>
+
+                    <div class="py-2 mb-1">
                             <label>Marcas</label>
-                            <select wire:model="brand_id" class="py-2 select2ma" data-placeholder="Selecccione una marca" style="height:50%; width:100%">
+                            <select wire:model="brand_id" class="py-2 " data-placeholder="Selecccione una marca" style="height:50%; width:100%">
                                  <option value="" selected disabled>Seleccione</option>
                                 @foreach($brands as $brand)
-                                <option value="{{$brand->id}}">{{$brand->name}}</option>
+                                <option value="{{$brand->name}}">{{$brand->name}}</option>
                                 @endforeach
 
                             </select>
                             <x-jet-input-error for="brand_id" />
                     </div>
 
-                    <div class="py-2 mb-1"  wire:ignore>
+                    <div class="py-2 mb-1" >
                             <label>Modelos</label>
-                            <select wire:model="modelo_id" class="py-2 select2m" data-placeholder="Selecccione un modelo" style="height:50%; width:100%">
+                            <select wire:model="modelo_id" class="py-2 " data-placeholder="Selecccione un modelo" style="height:50%; width:100%">
                                  <option value="" selected disabled>Seleccione</option>
                                 @foreach($modelos as $modelo)
-                                <option value="{{$modelo->id}}">{{$modelo->name}}</option>
+                                <option value="{{$modelo->name}}">{{$modelo->name}}</option>
                                 @endforeach
 
                             </select>
                             <x-jet-input-error for="modelo_id" />
                     </div>
 
-                    <div class="py-2 mb-1" wire:ignore>
+                    <div class="py-2 mb-1">
                         <label>Unidad de medida</label>
-                        <select wire:model="um_id" class="py-2 select2um"  data-placeholder="Selecccione una Unidad de medida" style="height:50%; width:100%">
+                        <select wire:model="um_id" class="py-2 "  data-placeholder="Selecccione una Unidad de medida" style="height:50%; width:100%">
                              <option value="" selected disabled>Seleccione</option>
                             @foreach($ums as $um)
                             <option value="{{$um->id}}">{{$um->abbreviation}}</option>
@@ -167,7 +170,8 @@
                         <x-jet-input type="text"
                             wire:model="name"
                             class="w-full py-1 rounded-lg"
-                            placeholder="Nombre del producto" />
+                            placeholder="Nombre del producto"
+                             />
                         <x-jet-input-error for="name" />
 
                     </div>

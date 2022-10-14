@@ -46,6 +46,7 @@ return new class extends Migration
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
 
+            $table->string('nameincod')->unique();
 
             $table->boolean('state')->default(false);
 

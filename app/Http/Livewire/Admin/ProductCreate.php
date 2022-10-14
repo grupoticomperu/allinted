@@ -13,6 +13,7 @@ use App\Models\Product;
 use App\Models\Um;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+//use Rules
 
 class ProductCreate extends Component
 {
@@ -37,7 +38,7 @@ class ProductCreate extends Component
         'stock'=> 'required',
         'stockmin'=> 'required',
         'state'=> 'required',
-        'name'=> 'required',
+       // 'name'=> 'required|unique',
         'description'=> 'required',
         'image'=> '',
         'prodservicio'=>'required',
@@ -46,77 +47,25 @@ class ProductCreate extends Component
     ];
 
 
-
-    public function mount(){
-
-/*         $this->categories = Category::all();
-        $this->brands = Brand::all();
-        $this->modelos = Modelo::all(); */
-
-    }
-
-    public function concatenar($name){
-        $this->name = $name;
-    }
-
-
-
     public function render()
     {
         $categories = Category::all();
         $brands = Brand::all();
         $modelos = Modelo::all();
         $ums = Um::all();
+        $this->name = $this->category_id." ".$this->brand_id." ".$this->modelo_id;
 
         return view('livewire.admin.product-create', compact('categories', 'brands', 'modelos', 'ums'));
 
     }
 
     public function save(){
+
         //$this->validate();
-        $categoriasel = Category::find($this->category_id);
-        if($categoriasel){
-           // $product->category_id = $categoriasel->id;
-            $categorianame = $categoriasel->name;
-        }
-        else {
-            $newcategory = Category::create(['name'=>$this->category_id]);
-           // $product->category_id = $newcategory->id;
-            $categorianame = $newcategory->name;
-        }
-
-        $modelosel = Modelo::find($this->modelo_id);
-        if($modelosel){
-          //  $product->modelo_id = $modelosel->id;
-            $modeloname = $modelosel->name;
-        }
-        else {
-            $newmodelo = Modelo::create(['name'=>$this->modelo_id]);
-          //  $product->modelo_id = $newmodelo->id;
-            $modeloname = $newmodelo->name;
-        }
-
-
-        $brandsel = Brand::find($this->brand_id);
-        if($brandsel){
-           // $product->brand_id = $brandsel->id;
-            $brandname = $brandsel->name;
-        }
-        else {
-            $newbrand = Brand::create(['name'=>$this->brand_id]);
-          //  $product->brand_id = $newbrand->id;
-            $brandname = $newbrand->name;
-        }
-
-        $this->name = $categorianame." ".$modeloname." ".$brandname;
-        $rules = $this->rules;
-        $rules['name'] = 'unique';
-        $this->validate();
-
 
         if($this->image){
-           // $rules = $this->rules;
-            $rules['image'] = 'image|max:2048';
+            $rules = $this->rules;
+            $rules['image'] = 'require|image|max:2048';
             $this->validate();
             $image = $this->image->store('products', 'public');
             $urlimage = Storage::url($image);
@@ -126,15 +75,12 @@ class ProductCreate extends Component
             $urlimage = '/storage/products/default.jpg';
         }
 
-
-
-
-
         $product = new Product();
+
         $product->codigo = $this->codigo;
         $product->codigobarrasi = $this->codigo;
         $product->codigobarrase = $this->codigo;
-        //$product->name = $this->name;
+
         $product->description = $this->description;
         $product->purchaseprice = $this->purchaseprice;
         $product->saleprice = $this->saleprice;
@@ -142,45 +88,24 @@ class ProductCreate extends Component
         $product->stock = $this->stock;
         $product->stockmin = $this->stockmin;
 
- /*        $product->tipo = $this->prod_servicio;
-        $product->haveserialnumber = $this->haveserialnumber;
-        $product->gender = $this->gender; */
 
-        //$categoriasel = Category::find($this->category_id);
+        $categoriasel = Category::where('name', $this->category_id)->get();
+        //dd($categoriasel[0]->id);
         if($categoriasel){
-            $product->category_id = $categoriasel->id;
-           // $categorianame = $categoriasel->name;
-        }
-        else {
-           // $newcategory = Category::create(['name'=>$this->category_id]);
-            $product->category_id = $newcategory->id;
-           // $categorianame = $newcategory->name;
+            $product->category_id = $categoriasel[0]->id;
         }
 
-
-       // $modelosel = Modelo::find($this->modelo_id);
+        $modelosel = Modelo::where('name', $this->modelo_id)->get();
         if($modelosel){
-            $product->modelo_id = $modelosel->id;
-           // $modeloname = $modelosel->name;
-        }
-        else {
-           // $newmodelo = Modelo::create(['name'=>$this->modelo_id]);
-            $product->modelo_id = $newmodelo->id;
-           // $modeloname = $newmodelo->name;
+            $product->modelo_id = $modelosel[0]->id;
         }
 
-
-
-      //  $brandsel = Brand::find($this->brand_id);
+        $brandsel = Brand::where('name', $this->brand_id)->get();
         if($brandsel){
-            $product->brand_id = $brandsel->id;
-          //  $brandname = $brandsel->name;
+            $product->brand_id = $brandsel[0]->id;
         }
-        else {
-          //  $newbrand = Brand::create(['name'=>$this->brand_id]);
-            $product->brand_id = $newbrand->id;
-           // $brandname = $newbrand->name;
-        }
+
+        $nameincod = $categoriasel[0]->id.$modelosel[0]->id.$brandsel[0]->id;
 
 
         $currencysel = Currency::find($this->currency_id);
@@ -203,7 +128,8 @@ class ProductCreate extends Component
             $product->um_id = $newcurrency->id;
         }
 
-        $product->name = $categorianame." ".$modeloname." ".$brandname;
+        $product->name = $this->name;
+        $product->nameincod = $nameincod;
         $product->state = $this->state;
         $product->image = $urlimage;
         $product->typeproduct = $this->typeproduct;
