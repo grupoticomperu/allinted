@@ -12,8 +12,15 @@
 
         <!-- Scripts -->
         <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+
+         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
         {{-- @vite(['build/assets/app.dde0781f.css', 'build/assets/app.ab93cf8a.js']) --}}
+         <link rel="stylesheet" href="{{ asset('build/assets/app.dde0781f.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('build/assets/app.ab93cf8a.js') }}">
+
         @stack('styles')
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!-- Styles -->
@@ -48,6 +55,11 @@
 
 
         @stack('scripts')
+
+        <script
+        src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+        crossorigin="anonymous"></script>
 
         <script>
             livewire.on('alert', function(message){

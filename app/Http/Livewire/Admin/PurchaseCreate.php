@@ -11,4 +11,5 @@ class PurchaseCreate extends Component
     {
         return view('livewire.admin.purchase-create');
     }
+
 }

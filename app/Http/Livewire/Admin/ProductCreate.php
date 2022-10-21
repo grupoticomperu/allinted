@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductCreate extends Component
 {
-
+    use WithFileUploads;
     //public $categories=[], $modelos = [], $brands = [], $ums = [];
     public $categoryy="";
-    public $prodservicio="", $category_id="",  $brand_id="", $modelo_id="", $um_id="", $haveserialnumber=0, $currency_id="", $typeproduct="";
+    public $category_id="",  $brand_id="", $modelo_id="", $um_id="", $haveserialnumber=0, $currency_id="", $typeproduct="";
     public $purchaseprice, $saleprice, $salepricemin, $stock, $stockmin, $state;
-    public $name, $slug, $description, $image, $codigo, $categoryname;
+    public $name, $slug, $description, $image, $codigo, $nameincod;
 
 
     protected $rules = [
@@ -41,10 +41,54 @@ class ProductCreate extends Component
        // 'name'=> 'required|unique',
         'description'=> 'required',
         'image'=> '',
-        'prodservicio'=>'required',
+       // 'prodservicio'=>'required',
         'codigo'=>'required',
 
     ];
+
+
+    public function updatedCategoryId(){
+        $this->nameincod = $this->category_id.$this->brand_id.$this->modelo_id;
+        $existnameincod = Product::where('nameincod', $this->nameincod)->get();
+       if($existnameincod->count()>0){
+        $this->category_id="";
+        $this->emit('alert','El Producto ya existe');
+    }
+    }
+
+    public function updatedBrandId(){
+        $this->nameincod = $this->category_id.$this->brand_id.$this->modelo_id;
+        $existnameincod = Product::where('nameincod', $this->nameincod)->get();
+
+       if($existnameincod->count()>0){
+            $this->brand_id="";
+            $this->emit('alert','El Producto ya existe');
+        }
+    }
+
+    public function updatedCodigo(){
+
+        $existcod = Product::where('codigobarrasi', $this->codigo)->get();
+
+        if($existcod->count()>0){
+            $this->codigo="";
+            $this->emit('alert','El Código del Producto ya existe, ingrese otro código');
+        }
+    }
+
+    public function updatedModeloId(){
+        $this->nameincod = $this->category_id.$this->brand_id.$this->modelo_id;
+
+        $existnameincod = Product::where('nameincod', $this->nameincod)->get();
+
+        if($existnameincod->count()>0){
+            $this->modelo_id="";
+            $this->emit('alert','El Producto ya existe');
+        }
+    }
+
+
+
 
 
     public function render()
@@ -53,7 +97,8 @@ class ProductCreate extends Component
         $brands = Brand::all();
         $modelos = Modelo::all();
         $ums = Um::all();
-        $this->name = $this->category_id." ".$this->brand_id." ".$this->modelo_id;
+       // $this->nameincod = $this->category_id.$this->brand_id.$this->modelo_id;
+        //dd($this->nameincod);
 
         return view('livewire.admin.product-create', compact('categories', 'brands', 'modelos', 'ums'));
 
@@ -61,7 +106,7 @@ class ProductCreate extends Component
 
     public function save(){
 
-        //$this->validate();
+        $this->validate();
 
         if($this->image){
             $rules = $this->rules;
@@ -89,51 +134,42 @@ class ProductCreate extends Component
         $product->stockmin = $this->stockmin;
 
 
-        $categoriasel = Category::where('name', $this->category_id)->get();
-        //dd($categoriasel[0]->id);
-        if($categoriasel){
-            $product->category_id = $categoriasel[0]->id;
+        //$categoriasel = Category::where('name', $this->category_id)->get();
+        $categoriasel = Category::find($this->category_id);
+        //dd($categoriasel);
+        //dd($this->category_id);
+
+
+
+        //$modelosel = Modelo::where('name', $this->modelo_id)->get();
+        $modelosel = Modelo::find($this->modelo_id);
+
+
+        //$brandsel = Brand::where('name', $this->brand_id)->get();
+        $brandsel = Brand::find($this->brand_id);
+
+
+        if($brandsel and $categoriasel and $brandsel){
+            $product->name = $categoriasel->name." ".$modelosel->name." ".$brandsel->name;
         }
-
-        $modelosel = Modelo::where('name', $this->modelo_id)->get();
-        if($modelosel){
-            $product->modelo_id = $modelosel[0]->id;
-        }
-
-        $brandsel = Brand::where('name', $this->brand_id)->get();
-        if($brandsel){
-            $product->brand_id = $brandsel[0]->id;
-        }
-
-        $nameincod = $categoriasel[0]->id.$modelosel[0]->id.$brandsel[0]->id;
-
 
         $currencysel = Currency::find($this->currency_id);
         if($currencysel){
             $product->currency_id = $currencysel->id;
-            $currencyname = $currencysel->name;
         }
-        else {
-            $newcurrency = Currency::create(['name'=>$this->currency_id]);
-            $product->currency_id = $newcurrency->id;
-            $currencyname = $newcurrency->name;
-        }
+
 
         $umsel = Um::find($this->currency_id);
         if($umsel){
             $product->um_id = $umsel->id;
         }
-        else {
-            $newcurrency = Um::create(['name'=>$this->um_id, 'abbreviation'=>$this->um_id]);
-            $product->um_id = $newcurrency->id;
-        }
 
-        $product->name = $this->name;
-        $product->nameincod = $nameincod;
+
+        $product->nameincod = $this->nameincod;
         $product->state = $this->state;
         $product->image = $urlimage;
         $product->typeproduct = $this->typeproduct;
-        $product->prodservicio = $this->prodservicio;
+        $product->prodservicio = 1;
 
 
         $prodcreado = $product->save();

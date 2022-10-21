@@ -24,7 +24,7 @@
 
 
                 <div class="grid grid-cols-1 px-4 mx-auto mt-4 max-w-7xl sm:px-6 lg:px-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-8">
-                    <div class="py-2 mb-1">
+{{--                     <div class="py-2 mb-1">
                         <label>Producto o Servicio</label>
                         <select wire:model="prodservicio" class="py-0.5 rounded " data-placeholder="Selecccione" style="height:50%; width:100%">
                             <option value="" selected disabled >Seleccione</option>
@@ -34,15 +34,15 @@
 
                         </select>
                         <x-jet-input-error for="prodservicio" />
-                    </div>
+                    </div> --}}
 
                     <div class="py-2 mb-1">
                         <label>Categorias </label>
-                        <select wire:model="category_id" data-placeholder="Selecccione una categoria" style="height:50%; width:100%">
+                        <select wire:model="category_id" class="py-0.5 rounded" data-placeholder="Selecccione una categoria" style="height:50%; width:100%">
                             <option value="" selected disabled>Seleccione</option>
                             @foreach($categories as $category)
                             {{-- <option value="{{$category->id."+".$category->name}}">{{$category->name}}</option> --}}
-                            <option value="{{ $category->name }} ">{{$category->name}}</option>
+                            <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
 
                         </select>
@@ -53,10 +53,10 @@
 
                     <div class="py-2 mb-1">
                             <label>Marcas</label>
-                            <select wire:model="brand_id" class="py-2 " data-placeholder="Selecccione una marca" style="height:50%; width:100%">
+                            <select wire:model="brand_id" class="py-0.5 rounded" data-placeholder="Selecccione una marca" style="height:50%; width:100%">
                                  <option value="" selected disabled>Seleccione</option>
                                 @foreach($brands as $brand)
-                                <option value="{{$brand->name}}">{{$brand->name}}</option>
+                                <option value="{{$brand->id}}">{{$brand->name}}</option>
                                 @endforeach
 
                             </select>
@@ -65,10 +65,10 @@
 
                     <div class="py-2 mb-1" >
                             <label>Modelos</label>
-                            <select wire:model="modelo_id" class="py-2 " data-placeholder="Selecccione un modelo" style="height:50%; width:100%">
+                            <select wire:model="modelo_id" class="py-0.5 rounded" data-placeholder="Selecccione un modelo" style="height:50%; width:100%">
                                  <option value="" selected disabled>Seleccione</option>
                                 @foreach($modelos as $modelo)
-                                <option value="{{$modelo->name}}">{{$modelo->name}}</option>
+                                <option value="{{$modelo->id}}">{{$modelo->name}}</option>
                                 @endforeach
 
                             </select>
@@ -77,7 +77,7 @@
 
                     <div class="py-2 mb-1">
                         <label>Unidad de medida</label>
-                        <select wire:model="um_id" class="py-2 "  data-placeholder="Selecccione una Unidad de medida" style="height:50%; width:100%">
+                        <select wire:model="um_id" class="py-0.5 rounded"  data-placeholder="Selecccione una Unidad de medida" style="height:50%; width:100%">
                              <option value="" selected disabled>Seleccione</option>
                             @foreach($ums as $um)
                             <option value="{{$um->id}}">{{$um->abbreviation}}</option>
@@ -165,7 +165,7 @@
                     </div>
 
                     {{-- <div class="w-full mb-2 mr-4 lg:col-span-4"> --}}
-                    <div class="w-full mb-2 mr-4 lg:col-span-2">
+{{--                     <div class="w-full mb-2 mr-4 lg:col-span-2">
                         <label>Nombre</label>
                         <x-jet-input type="text"
                             wire:model="name"
@@ -174,7 +174,7 @@
                              />
                         <x-jet-input-error for="name" />
 
-                    </div>
+                    </div> --}}
 
 
                     <div class="w-full mb-2 mr-4">
@@ -218,20 +218,30 @@
                         <textarea
                             wire:model="description"
                             class="w-full py-1 rounded-lg"
-                            name="textarea" rows="5">
-
-                            xyz
-                        </textarea>
+                            name="textarea" rows="5"></textarea>
                         <x-jet-input-error for="description" />
                     </div>
 
 
-                    <div class="mb-4">
+                    <div class="w-full mb-4 lg:col-span-2">
                         <input type="file" wire:model="image" id="">
                         <p class="py-3 text-blue-400">tamaño 300px ancho por 200px alto</p>
-
                         <x-jet-input-error for="image"/>
                     </div>
+
+
+                    <div wire:loading wire:target="image" class="relative px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded" role="alert">
+                        <strong class="font-bold">Cargando imagenn!</strong>
+                        <span class="block sm:inline">Espere un momento.</span>
+                    </div>
+
+
+
+                    @if($image)
+                    <div>
+                        <img class="mb-4" src="{{$image->temporaryUrl()}}" alt="Imagen de Producto">
+                    </div>
+                    @endif
 
 
 

@@ -14,6 +14,9 @@ php artisan make:livewire admin/BrandCreate
 php artisan make:livewire admin/ProductList
 php artisan make:livewire admin/PurchaseList
 php artisan make:livewire admin/PurchaseCreate
+php artisan make:livewire admin/BudgetList
+php artisan make:livewire admin/BudgetCreate
+
 
 
 php artisan make:model Category -mfs
@@ -34,3 +37,5 @@ php artisan make:model Comprobantepurchase -mfs
 php artisan make:model Comprobantesales -mfs
 php artisan make:model Customersupplier -mfs
 php artisan make:model Typedocument -mfs
+
+php artisan make:model Budget -mfs

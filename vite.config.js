@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import laravel, { refreshPaths } from 'laravel-vite-plugin';
 
 export default defineConfig({
-/*      server: {
+    /* server: {
         host: '0.0.0.0'
     }, */
     plugins: [
