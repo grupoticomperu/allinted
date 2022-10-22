@@ -102,14 +102,14 @@
                                 </thead>
 
                                 <tbody class="text-sm divide-y divide-gray-100">
-                                     {{ $i = 0 }}
-                                    @foreach($cart as $index=>$item)
-                                         {{ $i = $i + 1 }}
+
+                                    @foreach($cart as $item)
+
                                         <tr>
                                             <td class="p-2 whitespace-nowrap">
                                                 <div class="flex items-center">
                                                     <div class="flex-shrink-0 w-10 h-10 mr-2 sm:mr-3">
-                                                    <img class="rounded-full" src="" width="40" height="40" ></div>
+                                                    <img class="rounded-full" src="{{ asset( $item->attributes[0]) }}" width="40" height="40" ></div>
 
 
                                                 </div>
@@ -117,13 +117,13 @@
 
                                             <td class="p-2 whitespace-nowrap">
                                                 {{-- <div class="text-left">{{ $item[{{$index}}]->id }}</div> --}}
-                                                {{-- <div class="text-left">{{ $item->id }}</div> --}} {{-- {{ $cart.$index }}  --}}
-                                                <input type="text" wire:model="cart.{{$index}}.id">
+                                                <div class="text-left">{{ $item->id }}</div>  {{-- {{ $cart.$index }}  --}}
+                                               {{--  <input type="text" wire:model="cart.{{$index}}.id"> --}}
                                             </td>
 
                                             <td class="p-2 whitespace-nowrap">
-                                               {{--  <div class="font-medium text-left text-green-500">{{ $item->name }}</div> --}}
-                                               <input type="text" wire:model="cart.{{$index}}.name">
+                                               <div class="font-medium text-left text-green-500">{{ $item->name }}</div>
+                                              {{--  <input type="text" wire:model="cart.{{$index}}.name"> --}}
                                             </td>
                                             {{-- <td class="p-2 whitespace-nowrap">
                                                     <div class="w-20 text-lg text-center">
@@ -138,18 +138,19 @@
                                             <td class="p-2 whitespace-nowrap">
                                                     <div class="text-lg text-center ">
                                                         <input type="number"
-                                                           {{-- id="c{{$item->id}}" --}}
-                                                        wire:model="cart.{{$index}}.quantity"
+                                                        width="10px"
+                                                           id="c{{$item->id}}"
+                                                           {{--  wire:model="cart.{{$index}}.quantity" --}}
                                                            {{--  name="cantt[{{$item->id}}]" --}}
                                                         {{-- wire:change="updateQty('cart.'.$index.'.id', 5)" --}} {{-- {{ $index }} --}}
-                                                        wire:change="updateQty({{ $index }}, 'cart.{{ $index }}.quantity')"
-                                                         {{-- wire:change="updateQty({{$item->id}}, $('#c' + {{$item->id}}).val())" --}}
+                                                       {{--  wire:change="updateQty({{ $index }}, 'cart.{{ $index }}.quantity')" --}}
+                                                          wire:change="updateQty({{$item->id}}, $('#c' + {{$item->id}}).val())"
                                                         style="font-size: 1rem!important"
                                                         class="text-center form-control"
-                                                        {{-- value="{{$item->quantity}}" --}}
+                                                        value="{{$item->quantity}}"
                                                         >
                                                     </div>
-                                                   {{ $cart[11]}}
+
                                             </td>
 
 
@@ -168,16 +169,49 @@
 
                                     @endforeach
 
-                                    <div >
-                                        <label autocomplete="off">Total:</label>
 
-                                        <div class="input-group">
-
-                                        <input type="text" wire:model="itemsQuantity" autocomplete="off"   class="form-control pull-right" >
-                                        </div>
-                                        <!-- /.input group -->
-                                    </div>
                                 </tbody>
+                                <tfoot>
+
+                                    <tr>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-left"></div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-left"></div>
+                                        </th>
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-left">Total : </div>
+                                        </th>
+                              {{--           <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">precio</div>
+                                        </th> --}}
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">
+                                                <div >
+
+
+                                                    <div class="input-group">
+
+                                                      <input type="number" wire:model="itemsQuantity" autocomplete="off"
+                                                        style="font-size: 1rem!important"
+                                                        class="text-center form-control"
+                                                        readonly
+                                                       >
+                                                    </div>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                        </th>
+                         {{--           <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center">Subtotal</div>
+                                        </th> --}}
+                                        <th class="p-2 whitespace-nowrap">
+                                            <div class="font-semibold text-center"></div>
+                                        </th>
+                                    </tr>
+
+                                </tfoot>
                             </table>
                         </div>
                     </div>

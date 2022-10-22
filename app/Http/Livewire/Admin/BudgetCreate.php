@@ -38,7 +38,7 @@ class BudgetCreate extends Component
      // actualizar cantidad item en carrito
      public function updateQty($product, $cant = 1)
      {
-              dd($cant);
+             // dd($cant);
              if ($cant <= 0)
                      $this->removeItem($product);
              else
@@ -143,6 +143,7 @@ class BudgetCreate extends Component
     {
 
         $this->cart = Cart::getContent()->sortBy('name');
+        $this->itemsQuantity = Cart::getTotalQuantity();
         return view('livewire.admin.budget-create', compact($this->cart));
     }
 }
